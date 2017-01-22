@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>GPA Calculator</title>
+<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+
+</head>
+
+<body>
+<h1>GPA Calculator v0.0.1</h1>
+<h5><i>the first try of angular.js</i></h5>
+<br />
+<div ng-app="Cal" ng-controller="CalCtrl">
+请输入科目总数：<input type="text" ng-model="num"/>
+<button type="button" ng-click="make()">确定</button>
+<div id="ind" ng-bind="indices">
+</div>
+<button id="result" type="button" ng-click="result()" style="visibility:hidden">计算GPA</button>
+</div>
+
+<script>
+
+function f(x){
+	return 4-(3.0*(100-x)*(100-x))/1600.0;
+}
+
+var app=angular.module("Cal",[]);
+app.controller("CalCtrl",function($scope){
+	$scope.make = function(){
+		var n=$scope.num;
+		var indices=""
+		for(var i=1;i<=n;i++){
+			indices+="第"+i+"门： 成绩：<input class='grade' type='text'></input> 学分：<input class='point' type='text'></input><br/><br/>";
+		}
+		document.getElementById("ind").innerHTML=indices;
+		document.getElementById("result").setAttribute("style","visibility:visible");
+	}
+	$scope.result = function(){
+		var n=document.getElementsByClassName("grade").length;
+		var sumAll=0,sump=0;
+		for(var i=0;i<n;i++){
+			var g=document.getElementsByClassName("grade").item(i).value;
+			var p=document.getElementsByClassName("point").item(i).value;
+			g=parseFloat(g);
+			p=parseFloat(p);
+			sumAll+=f(g)*p;
+			sump+=p;
+		}
+		var answer="你的总GPA是"+sumAll/sump;
+		alert(answer);
+		//document.getELementById("ind").append(answer);
+	}
+})
+</script>
+
+</body>
+</html>

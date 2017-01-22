@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>黑照查看器</title>
+<style>
+body{
+	background-image:url("./img/HACG_(2).jpg");
+}
+
+h1,h2{
+	text-align:center;
+}
+</style>
+</head>
+
+<body>
+	<h1>西语系黑照查看页面</h1>
+	<h2>v0.0.0</h2>
+	<div id="panel">
+    	<form method="post">
+        	请输入您想查看的黑照对象：<input type="text" id="nombre" name="name"/>
+            <br />
+			<br />
+			<button type="button" onclick="getPhoto()">Submit</button> 
+        </form>
+	</div>
+    <div id="intro">
+    <p>
+    请在文本框中输入16级西语系同学的西语全名，
+    首字母小写，无重音符号
+    然后点击Submit按钮即可显示黑照
+    <br />
+    
+	这是lyzy第一次发表web作品，如有建议可在
+    <a href="/consejo">此处</a>
+    反馈：
+    </p>
+    </div>
+    <img id="photoView" style="height:1280px;weigh:960px"/>
+    
+	<script>
+	function getPhoto(){
+		var nombre=document.getElementById("nombre").value;
+		var xhr=new XMLHttpRequest();
+		xhr.open("GET","/img/"+nombre+".jpg",true);
+		xhr.send();
+		xhr.onreadystatechange=function(){
+			if (xhr.readyState==4 && xhr.status==200){
+				document.getElementById("photoView").setAttribute("src","/img/"+nombre+".jpg");
+			}
+		}
+	}
+	</script>
+</body>
+</html>

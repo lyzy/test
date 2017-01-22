@@ -1,0 +1,23 @@
+<h1>Welcome to YZY's first page!</h1>
+<form method="POST">
+nombre: <input type="name" name="nombre" />
+<br/><br/>
+palabra: <input type="text" name="hehe" />
+<input type="submit" val="Submit"/>
+</form>
+
+<button type="button" onclick="loadXML()">AJAX</button>
+<br/><br/>
+<div id="inspectorDiv"></div>
+<script>
+function loadXML(){
+	var xhr=new XMLHttpRequest();		
+	xhr.onreadystatechange=function(){	
+		if (xhr.readyState==4 && xhr.status==200){
+			document.getElementById("inspectorDiv").innerHTML=xhr.responseText;
+		}
+	}
+	xhr.open("GET","/test.txt",true);
+	xhr.send();
+}
+</script>

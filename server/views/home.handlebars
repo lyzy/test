@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>YZY's page</title>
+<link href="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
+<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+<link href="http://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet">
+<link href="http://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.theme.min.css" rel="stylesheet">
+<link href="http://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.structure.min.css" rel="stylesheet">
+<script src="http://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.js"></script>
+<style>
+.panels li{
+	float:left;
+	width:90px;
+	font-size:50px;
+	background:#CCC;
+	list-style-type:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+	<div class="row clearfix"> 
+		<div class="col-md-12 column">
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar">〇</span> </button> <a class="navbar-brand" href="#">LYZY</a>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active">
+							 <a href="#">YZY的主页</a>
+						</li>
+						<li>
+							 <a href="http://laekov.com.cn">清华同学的友情链接</a>
+						</li>
+						<li class="dropdown">
+							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">更多<strong class="caret"></strong></a>
+							<ul class="dropdown-menu">
+								<li>
+									 <a href="http://laekov.com.cn:3000/sudoku.html">数独</a>
+								</li>
+								<li>
+									 <a href="http://laekov.com.cn:3000/gpa">GPA计算器</a>
+								</li>
+								<li>
+									 <a href="http://laekov.com.cn:3000/fp.html">西语系照片墙</a>
+								</li>
+								<li class="divider">
+								</li>
+								<li>
+									 <a href="http://github.com/lyzy">LYZY Github</a>
+								</li>
+								<li class="divider">
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<form class="navbar-form navbar-left" role="search">
+						<div class="form-group">
+							<input type="text" class="form-control" />
+						</div> <button type="submit" class="btn btn-default">Submit</button>
+					</form>
+				</div>
+			</nav>
+			<div class="jumbotron">
+				<h1>
+					<abbr title="余钟扬">YZY</abbr>的主页
+				</h1>
+				<p>
+					这是余钟扬同学的文科计算机基础实验班（上）的大作业首页。
+                </p>
+				<p>
+					 <a class="btn btn-primary btn-large" href="http://laekov.com.cn:3000/about">了解更多</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="row clearfix">
+		<div class="col-md-4 column">
+			<h2>
+				Calendar:
+			</h2>
+			<p>
+				<div id="datePicker"></div>
+            </p>
+			<p>
+				 <a class="btn" href="http://jqueryui.com/">View details »</a>
+			</p>
+		</div>
+        <div class="col-md-4 column">
+			<h2>
+				开发目标
+			</h2>
+			<p>
+				<ul>
+                	<li>用一种语言（JavaScript）熟悉前端后端开发的基础；</li>
+                    <li>提高快速学习模块的能力；</li>
+                    <li>对本学期课程作业的归纳整理；</li>
+                    <li>写一些力所能及的简单网页应用服务同学。</li>
+                </ul>
+            </p>
+			<p>
+				 <a class="btn disabled" href="#">View details »</a>
+			</p>
+		</div>
+		<div class="col-md-4 column">
+			<h2>
+				技术栈
+			</h2>
+			<p>
+			<div id="accoMenu">
+  <div class="group">
+    <h3>前端</h3>
+    <div>
+      <p>
+      	使用了Bootstrap框架、jQuery与jQuery UI库;
+        自主用原生jQuery实现了浮动面板。
+      </p>
+    </div>
+  </div>
+  <div class="group">
+    <h3>后端</h3>
+    <div>
+      <p>使用Node.js库与Express框架。</p>
+    </div>
+  </div>
+  <div class="group">
+    <h3>包</h3>
+    <div>
+      <p>
+      body-parser<br />
+	  express-handlebars<br />
+      </p>
+    </div>
+  </div>
+  <div class="group">
+    <h3>开发环境</h3>
+    <div>
+      <p>
+      	Ubuntu Linux 16.0.4 LTS
+      </p>
+    </div>
+  </div>
+</div>
+            </p>
+			<p>
+				 <a class="btn" href="https://nodejs.org/en/">View details »</a>
+			</p>
+		</div>
+        <div class="col-md-12 column">
+        	<h2>
+            	讲义浏览
+            </h2>
+			<div id="panel">
+			<ul class="panels">
+   			 		<li><a href="/Chapter01.pdf">1</a></li>
+   				    <li><a href="/Chapter02.pdf">2</a></li>
+   				    <li><a href="/Chapter03.pdf">3</a></li>
+    			    <li><a href="/Chapter04.pdf">4</a></li>
+    				    <li><a href="/Chapter05.pdf">5</a></li>
+				<li><a href="/Chapter06.pdf">6</a></li>
+				<li><a href="/Chapter07.pdf">7</a></li>
+				<li><a href="/Chapter08.pdf">8</a></li>
+			    </ul>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+$("#datePicker").datepicker();
+$( "#accoMenu" )
+      .accordion({
+        header: "> div > h3",
+		heightStyle:"content",
+		collapsible: true
+      })
+function init_panels(){
+	if (!$("ul.panels").length){
+		return;
+	}
+	var speed=200;
+	$("ul.panels li:last-child").addClass("last");
+	
+	$("ul.panels li").hover(function(){
+		$(this).stop().animate({
+			width:"180px",
+			fontSize:"75px"
+		},speed)
+		.siblings("li").stop().animate({
+			width:"65px",
+			fontSize:"25px"
+		},speed);
+	},
+	function(){
+		$(this).stop().animate({
+			width:"90px",
+			fontSize:"50px"
+		},speed)
+		.siblings("li").stop().animate({
+			width:"90px",
+			fontSize:"50px"
+		},speed);
+	}
+	);
+}
+init_panels();
+</script>
+</body>
+</html>

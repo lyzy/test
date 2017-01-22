@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>数独</title>
+	<style type="text/css">
+		td{width:40px;height:40px;text-align:center;font-size:24px;font-weight:bold}
+		.canFill{background-color:#e7e7e7}
+		.cellSelected{background-color:red;color:Blue;font-weight:bold}
+		.filledText{font-weight:bold;color:Blue}
+		button{font-size:18px;width:140px}
+	</style>
+	<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+	<button id="start">开始游戏！</button>
+	<button id="btnCheckSudoku">判断正误</button>
+    <button id="answer">显示答案</button>
+	<table border="1" cellpadding="0" cellspacing="0" id="sudoku">
+		<tr>
+		  <td></td>
+          <td></td>
+          <td></td>
+		  <td></td>
+          <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td></tr>
+		<tr>
+		  <td></td>
+          <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+          <td></td>
+		  <td></td>
+		  <td></td></tr>
+		<tr>
+		  <td></td>
+          <td></td>
+		  <td></td>
+          <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td></tr>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td></tr>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td></tr>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+          <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td></tr>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td></tr>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td></tr>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td></tr>
+	</table><br>
+	<table border="1" cellpadding="0" cellspacing="0" style="background-color:#dfe2be" id="numList">
+		<tr><td class="opt">1</td><td class="opt">2</td><td class="opt">3</td><td class="opt">4</td><td class="opt">5</td><td class="opt">6</td><td class="opt">7</td><td class="opt">8</td><td class="opt">9</td></tr>
+	</table>
+    <img id="heheda"></img>
+	<script type="text/javascript">
+/*	
+		<table border="1" cellpadding="0" cellspacing="0" id="sudoku">
+		<tr><td>1</td><td></td><td>5</td><td></td><td></td><td></td><td>2</td><td></td><td></td></tr>
+		<tr><td></td><td>9</td><td>7</td><td></td><td>2</td><td>5</td><td>8</td><td></td><td></td></tr>
+		<tr><td></td><td>3</td><td></td><td>4</td><td></td><td>9</td><td></td><td>6</td><td></td></tr>
+		<tr><td>9</td><td>2</td><td></td><td>6</td><td></td><td></td><td></td><td>8</td><td></td></tr>
+		<tr><td></td><td></td><td></td><td>7</td><td>9</td><td>8</td><td></td><td></td><td></td></tr>
+		<tr><td></td><td>7</td><td></td><td></td><td></td><td>4</td><td></td><td>1</td><td>6</td></tr>
+		<tr><td></td><td>5</td><td></td><td>9</td><td></td><td>1</td><td></td><td>2</td><td></td></tr>
+		<tr><td></td><td></td><td>9</td><td>8</td><td>6</td><td></td><td>3</td><td>5</td><td></td></tr>
+		<tr><td></td><td></td><td>6</td><td></td><td></td><td></td><td>1</td><td></td><td>4</td></tr>
+	</table><br>
+	<table border="1" cellpadding="0" cellspacing="0" style="background-color:#dfe2be" id="numList">
+		<tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td></tr>
+	</table>
+*/	
+	//	$("td:empty").addClass("canFill");//$("td:empty")选中所有内容为空的元素
+	
+		var a=[[],[],[],[],[],[],[],[],[]];
+		var origin=[
+		[2,7,5,8,9,3,4,1,6],
+		[6,9,4,7,5,1,8,2,3],
+		[1,3,8,4,2,6,7,9,5],
+		[4,6,7,5,8,2,1,3,9],
+		[3,5,2,1,7,9,6,8,4],
+		[8,1,9,3,6,4,5,7,2],
+		[9,8,6,2,4,7,3,5,1],
+		[5,2,1,6,3,8,9,4,7],
+		[7,4,3,9,1,5,2,6,8]
+		];
+		
+function judge(x,y){
+	var f=[];
+	for(var i=0;i<=10;i++)
+		f[i]=0;
+	for(var i=0;i<9;i++){
+		if (a[x][i]=="0") continue;
+		var tmp=parseInt(a[x][i]);
+		if (f[tmp]==1){
+			return false;
+		}
+		f[tmp]=1;
+	}
+	for(var i=0;i<=10;i++)
+		f[i]=0;
+	for(var i=0;i<9;i++){
+		if (a[i][y]=="0") continue;
+		var tmp = parseInt(a[i][y]);
+		if (f[tmp]==1){
+			return false;
+		}
+		f[tmp]=1;
+	}
+	for(var i=0;i<=10;i++)
+		f[i]=0;
+	var tmpx=x/3;
+	var tmpy=y/3;
+	var sx,sy;
+	if (tmpx<1) sx=0;
+	else if (tmpx<2) sx=1;
+	else sx=2;
+	if (tmpy<1) sy=0;
+	else if (tmpy<2) sy=1;
+	else sy=2;
+	for(var i=sx*3;i<sx*3+3;i++)
+		for(var j=sy*3;j<sy*3+3;j++)
+			{	if (a[i][j]=="0") continue;
+				var tmp=parseInt(a[i][j]);
+				if (f[tmp]==1){
+					return false;
+				}
+				f[tmp]=1;
+			}
+	return true;
+}
+
+function renew(){
+	for(var i=0;i<9;i++)
+		for(var j=0;j<9;j++){
+				var tmp=$("#sudoku tr").eq(i).children("td").eq(j).text();
+				if (tmp=="") a[i][j]=0;
+				else a[i][j]=parseInt(tmp);											
+		}
+}
+
+function swaprow(p,q){
+	for(var i=0;i<9;i++){
+		var tmp=origin[p][i];
+		origin[p][i]=origin[q][i];
+		origin[q][i]=tmp;
+	}
+}
+
+function swapcol(p,q){
+	for(var i=0;i<9;i++){
+		var tmp=origin[i][p];
+		origin[i][p]=origin[i][q];
+		origin[i][q]=tmp;
+	}
+}
+
+function chaos(){
+	swaprow(0,2);swapcol(6,7);
+	swapcol(0,2);swaprow(4,5);
+	swapcol(3,5);swaprow(6,8);
+}
+
+function init(){
+	chaos();
+	for(var i=0;i<9;i++)
+		for(var j=0;j<9;j++){
+			var tmp=$("#sudoku tr").eq(i).children("td").eq(j);
+			var ran=Math.random();
+			if (ran<0.5)
+				tmp.text(origin[i][j]);
+			else
+				tmp.text(""); 
+		}
+}
+
+		$("#start").click(function(){
+		init();
+		renew();
+		$("#heheda").removeAttr("src");
+		})
+		
+		$("td:not(.opt)").addClass("canFill");
+		
+		$(".canFill").click(function(){
+			$(".cellSelected").removeClass("cellSelected");//移走其他选中的元素
+			$(this).addClass("cellSelected");//当前单元格加上选中
+		});
+
+		//选中numList元素下的td元素
+		$("#numList td").click(function(){
+			//找到有无一个td被标记cellSelected，如果找到则把当前数填充到单元格
+
+			//当前单元格的数字
+			var nowNum=$(this).text();
+			$(".cellSelected").text(nowNum);//填入当前数字
+			$(".cellSelected").addClass("filledText");//增加class
+			renew();
+			var tmp1=$(".cellSelected").parent()[0].rowIndex;
+			var tmp2=$(".cellSelected")[0].cellIndex;
+			if (!judge(tmp1,tmp2)) alert("不能填写数字"+nowNum);
+		});
+		
+		$(document).keypress(function(e){
+			var nowNum;
+			switch (e.which){
+			case 49:
+				nowNum=1;
+				break;
+			case 50:
+				nowNum=2;
+				break;
+			case 51:
+				nowNum=3;
+				break;
+			case 52:
+				nowNum=4;
+				break;
+			case 53:
+				nowNum=5;
+				break;
+			case 54:
+				nowNum=6;
+				break;
+			case 55:
+				nowNum=7;
+				break;
+			case 56:
+				nowNum=8;
+				break;
+			case 57:
+				nowNum=9;
+				break;
+			default:break;
+			}
+			
+			$(".cellSelected").text(nowNum);
+			$(".cellSelected").addClass("filledText");
+			renew();
+			var tmp1=$(".cellSelected").parent()[0].rowIndex;
+			var tmp2=$(".cellSelected")[0].cellIndex;
+			if (!judge(tmp1,tmp2)) alert("不能填写数字"+nowNum);
+		});
+		
+function finaljudge(){
+	if(
+			checkSpace()==true && 
+			checkNine()==true && checkCol()==true && checkRow()==true){
+				alert("恭喜你答对了！");
+				$("#heheda").attr("src","http://photocdn.sohu.com/20150604/mp17597308_1433349024843_1_th.jpeg");
+			}else{
+				alert("填写有误！");
+			}
+}
+
+		$("#btnCheckSudoku").click(function(){
+//			alert(checkSpace());//判断有误空格，调试完毕后可以删除
+		finaljudge();
+})
+			//为了调试方便，可以把数据直接填入表格，待调试完毕后，最后进行真实性调试
+		
+
+		//根据checkSpace()和checkRow()提示，完成如下三个函数
+		//判断有误空白
+function checkSpace(){
+			//alert("A"+$("#sudoku td").eq(i).text()+"A");
+			for(var i=0;i<9;i++)
+				for(var j=0;j<9;j++){
+					var cellText=a[i][j];
+					if (cellText=="")return false;
+			}
+			return true;
+		}
+		//行判断
+		function checkRow(){
+			var flag=1;
+			var i,j;
+			for(i=0;i<9;i++){
+				var ans=0;
+				for(j=0;j<9;j++){
+					ans+=a[i][j];
+				}
+				if (ans!=45){
+					flag=0; break;
+					}
+			}
+			if (flag) return true;
+			else return false;
+		}
+
+		function checkCol(){
+			var i,j,flag=1;
+			for(i=0;i<9;i++){
+				var ans=0;
+				for(j=0;j<9;j++){
+					ans+=a[j][i];	
+				}
+			if (ans!=45){
+					flag=0; break;
+				}
+			}
+			if (flag) return true;
+			else return false;
+
+		}
+
+		function checkNine(){
+			var p,q,i,j,flag=1;
+			for(p=0;p<=2;p++)
+				for(q=0;q<=2;q++){
+					var ans=0;
+					for(i=0;i<=2;i++)
+						for(j=0;j<=2;j++){
+							ans+=a[3*p+i][3*q+j];
+						}
+					if (ans!=45){
+						flag=0; break;
+					}
+					}
+			if (flag) return true;
+			else return false;
+		}
+
+function showanswer(){
+	for(var i=0;i<9;i++)
+		for(var j=0;j<9;j++)
+			$("#sudoku tr").eq(i).children("td").eq(j).text(origin[i][j]);
+	renew();
+}
+	
+	$("#answer").dblclick(showanswer);
+		
+	</script>
+</body>
+</html>
