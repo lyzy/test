@@ -6,21 +6,53 @@ using namespace std;
 const int MAXLENGTH=110;
 
 class Matrix{
-	private:
+	protected:
 		int row;
 		int column;
 		vector<int> value[MAXLENGTH];
 	public:
+		Matrix(){
+			row=column=0;
+			for(int i=0;i<MAXLENGTH;i++){
+				value[i].clear();
+			}
+		}
+		~Matrix(){
+		}
 		void define();
 		void read();
 		void write();
 		Matrix transpose(); //转置 
 };
 
+//继承:方阵类 
+class Phalanx : public Matrix
+{
+	protected:
+		int order;
+	public:
+		Phalanx(){
+			row=column=order=0;
+			for(int i=0;i<MAXLENGTH;i++){
+				value[i].clear();
+			}
+		}
+		~Phalanx(){
+		}
+		virtual void define();
+		int trace();
+};
+
 int sizeNum=0;
 
 int main(int argc, char** argv) {
 
+	Phalanx a;
+	cout << endl << "please input the order of a" <<endl;
+	a.define();
+	a.read();
+	cout << "the trace of a is: " << a.trace();
+/*
 	Matrix a,b;
 	cout << endl << "请输入矩阵行数列数" << endl; 
 	a.define();
@@ -78,4 +110,18 @@ Matrix Matrix::transpose(){
 		}
 	}
 	return ret;
+}
+
+void Phalanx::define(){
+	cin >> order;
+	row=order;
+	column=order;
+}
+
+int Phalanx::trace(){
+	int ret=0;
+	for(int i=0;i<order;i++){
+		ret+=value[i][i];
+	}
+	return ret; 
 }
