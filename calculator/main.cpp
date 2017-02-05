@@ -1,4 +1,4 @@
-#include <iostream>
+ #include <iostream>
 #include <vector>
 using namespace std; 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
@@ -19,7 +19,7 @@ class Matrix{
 		}
 		~Matrix(){
 		}
-		void define();
+		void define(int x,int y);
 		void read();
 		void write();
 		Matrix transpose(); //转置 
@@ -39,8 +39,10 @@ class Phalanx : public Matrix
 		}
 		~Phalanx(){
 		}
-		virtual void define();
-		int trace();
+		virtual void define(int x);
+		int trace();		//迹
+		int algebra_cofactor(int x,int y);		//代数余子式 
+		int det();		//行列式
 };
 
 int sizeNum=0;
@@ -49,9 +51,13 @@ int main(int argc, char** argv) {
 
 	Phalanx a;
 	cout << endl << "please input the order of a" <<endl;
-	a.define();
+	int input_row,input_column,input_order;
+	cin >> input_order;
+	a.define(input_order);
 	a.read();
-	cout << "the trace of a is: " << a.trace();
+	cout << "the trace of a is: " << a.trace() << endl;
+	cout << "the det of a is: " << a.det() << endl; 
+	cout << "the alfa of a 2 2 is: " << a.algebra_cofactor(2,2) << endl;
 /*
 	Matrix a,b;
 	cout << endl << "请输入矩阵行数列数" << endl; 
@@ -76,8 +82,9 @@ int main(int argc, char** argv) {
 	return 0;
 }
 
-void Matrix::define(){
-	cin >> row >> column; 
+void Matrix::define(int x,int y){
+	row=x;
+	column=y;
 }
 
 void Matrix::read(){
@@ -112,10 +119,9 @@ Matrix Matrix::transpose(){
 	return ret;
 }
 
-void Phalanx::define(){
-	cin >> order;
-	row=order;
-	column=order;
+void Phalanx::define(int x){
+	order=row=column=x;
+	
 }
 
 int Phalanx::trace(){
@@ -124,4 +130,38 @@ int Phalanx::trace(){
 		ret+=value[i][i];
 	}
 	return ret; 
+}
+
+int Phalanx::algebra_cofactor(int x,int y){
+	Phalanx newPhalanx;
+	newPhalanx.define(order-1);
+	x--,y--;
+	for(int i=0;i<x;i++){
+		newPhalanx.value[i]=value[i];
+		newPhalanx.value[i].erase(newPhalanx.value[i].begin()+y);
+	}
+	for(int i=x;i<newPhalanx.order;i++){
+		newPhalanx.value[i]=value[i+1];
+		newPhalanx.value[i].erase(newPhalanx.value[i].begin()+y);
+	}
+	if ((x+y)&1==1){
+		return -newPhalanx.det(); 
+	}
+	else{
+		return newPhalanx.det();
+	}
+}
+
+int Phalanx::det(){
+	int ret=0;
+	if (order==1){
+		return value[0][0];
+	}
+	if (order==2){
+		return value[0][0]*value[1][1]-value[0][1]*value[1][0];
+	}
+	for(int i=0;i<order;i++){
+		ret+=value[i][0]*algebra_cofactor(i+1,1);
+	}
+	return ret;
 }
