@@ -1,4 +1,4 @@
- #include <iostream>
+#include <iostream>
 #include <vector>
 using namespace std; 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
@@ -9,20 +9,23 @@ class Matrix{
 	protected:
 		int row;
 		int column;
-		vector<int> value[MAXLENGTH];
+		vector<double> value[MAXLENGTH];
 	public:
-		Matrix(){
+		Matrix(){		//构造函数 
 			row=column=0;
 			for(int i=0;i<MAXLENGTH;i++){
 				value[i].clear();
 			}
 		}
-		~Matrix(){
+		~Matrix(){		//析构函数（无内容） 
 		}
 		void define(int x,int y);
 		void read();
 		void write();
-		Matrix transpose(); //转置 
+		Matrix transpose(); //转置
+		Matrix operator+(const Matrix & x) const;		//const表示常成员函数，函数内不能改变成员
+		Matrix operator-(const Matrix & x) const;
+		Matrix operator*(const Matrix & x) const;
 };
 
 //继承:方阵类 
@@ -40,14 +43,30 @@ class Phalanx : public Matrix
 		~Phalanx(){
 		}
 		virtual void define(int x);
-		int trace();		//迹
-		int algebra_cofactor(int x,int y);		//代数余子式 
-		int det();		//行列式
+		double trace();		//迹
+		double algebra_cofactor(int x,int y);		//代数余子式 
+		double det();		//行列式
 };
+
+const Matrix ERROR;//		无效运算的返回值 
 
 int sizeNum=0;
 
 int main(int argc, char** argv) {
+/* 
+	Matrix a,b;
+	int n_a,m_a,n_b,m_b;
+	cout << endl << "please input the n, m of a: " << endl;
+	cin >> n_a >> m_a;
+	a.define(n_a,m_a);
+	a.read();
+	cout << endl << "please input the n, m of b: " << endl;
+	cin >> n_b >> m_b;
+	b.define(n_b,m_b);
+	b.read();
+	Matrix c=a*b;
+	c.write();
+
 
 	Phalanx a;
 	cout << endl << "please input the order of a" <<endl;
@@ -82,6 +101,8 @@ int main(int argc, char** argv) {
 	return 0;
 }
 
+//-----------functions of Matrix
+
 void Matrix::define(int x,int y){
 	row=x;
 	column=y;
@@ -90,7 +111,7 @@ void Matrix::define(int x,int y){
 void Matrix::read(){
 	for(int i=0;i<row;i++){
 		for(int j=0;j<column;j++){
-			int tmp;
+			double tmp;
 			cin >> tmp;
 			value[i].push_back(tmp);
 		}
@@ -119,20 +140,77 @@ Matrix Matrix::transpose(){
 	return ret;
 }
 
+Matrix Matrix::operator+(const Matrix & x) const{
+	Matrix ret;
+	ret.define(row,column);
+	if (row!=x.row || column!=x.column){
+		cerr << "Invalid operation: two matrix shall be the same size\n";
+		return ERROR;
+	}
+	else{
+		for(int i=0;i<row;i++){
+			for(int j=0;j<column;j++){
+				ret.value[i].push_back(value[i][j]+x.value[i][j]);
+			}
+		}
+		return ret;
+	}
+}
+
+Matrix Matrix::operator-(const Matrix & x) const{
+	Matrix ret;
+	ret.define(row,column);
+	if (row!=x.row || column!=x.column){
+		cerr << "Invalid operation: two matrix shall be the same size\n";
+		return ERROR;
+	}
+	else{
+		for(int i=0;i<row;i++){
+			for(int j=0;j<column;j++){
+				ret.value[i].push_back(value[i][j]-x.value[i][j]);
+			}
+		}
+		return ret;
+	}
+}
+
+Matrix Matrix::operator*(const Matrix & x) const{
+	Matrix ret;
+	ret.define(row,x.column);
+	if (column != x.row){
+		cerr << "Invalid operation: cannot multiply\n";
+		return ERROR;
+	}
+	else{
+		for(int i=0;i<ret.row;i++){
+			for(int j=0;j<ret.column;j++){
+				double cur=0;
+				for(int k=0;k<column;k++){
+					cur += value[i][k]*x.value[k][j];
+				}
+				ret.value[i].push_back(cur);
+			}
+		}
+		return ret;
+	}
+}
+
+//---------------functions of Phalanx 
+
 void Phalanx::define(int x){
 	order=row=column=x;
 	
 }
 
-int Phalanx::trace(){
-	int ret=0;
+double Phalanx::trace(){
+	double ret=0;
 	for(int i=0;i<order;i++){
 		ret+=value[i][i];
 	}
 	return ret; 
 }
 
-int Phalanx::algebra_cofactor(int x,int y){
+double Phalanx::algebra_cofactor(int x,int y){
 	Phalanx newPhalanx;
 	newPhalanx.define(order-1);
 	x--,y--;
@@ -152,8 +230,8 @@ int Phalanx::algebra_cofactor(int x,int y){
 	}
 }
 
-int Phalanx::det(){
-	int ret=0;
+double Phalanx::det(){
+	double ret=0;
 	if (order==1){
 		return value[0][0];
 	}
